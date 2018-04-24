@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+    <!-- 加载应用程序配置文件 -->
+    <!--<context:property-placeholder location="classpath:properties/*.properties" file-encoding="utf-8"/>-->
+    <context:property-placeholder location="classpath:properties/sqlite.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
+
+    <!-- 引入SQLITE数据源的配置项 -->
+    <import resource="dal-sqlite.xml"/>
+
+    <!-- 引入mysql数据源的配置项 -->
+    <!--<import resource="dal-mysql.xml"/>-->
+
+    <!-- 多数据源 -->
+    <bean id="multiDataSource" class="org.hisoka.datasource.mybatis.MultiDataSource">
+        <property name="defaultSQLFactory" value="sqLite"/>
+        <property name="configSQLFactoryNames">
+            <map>
+                <entry key="sqLite" value="sqLiteSqlSessionFactory"/>
+                <!--<entry key="mysql" value="mysqlSqlSessionFactory"/>-->
+            </map>
+        </property>
+    </bean>
+
+    <bean class="org.hisoka.datasource.mybatis.MoonMapperScannerConfigurer">
+        <property name="processPropertyPlaceHolders" value="true" />
+        <property name="multiDataSource" ref="multiDataSource"/>
+        <property name="basePackage" value="org.hinsteny.dal.mapper"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <properties>
+        <property name="pattern">[%T] %d %C (%F:%L) %n[%p] %m %n</property>
+        <property name="rootLoggerLevel">ERROR</property>
+        <property name="frameworkLoggerLevel">ERROR</property>
+        <property name="serviceLoggerLevel">INFO</property>
+    </properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.springframework" level="${frameworkLoggerLevel}"/>
+        <Logger name="org.apache" level="${frameworkLoggerLevel}"/>
+        <Logger name="com.google" level="${frameworkLoggerLevel}"/>
+        <Logger name="com.alibaba" level="${frameworkLoggerLevel}"/>
+        <Logger name="org.jboss" level="${serviceLoggerLevel}"/>
+
+        <Logger name="test" level="${serviceLoggerLevel}" additivity="false">
+            <AppenderRef ref="CONSOLE" />
+        </Logger>
+
+        <Root level="${rootLoggerLevel}">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

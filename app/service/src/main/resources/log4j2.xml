@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <properties>
+        <property name="fileFolder">D://logs/service/</property>
+        <property name="pattern">[%T] %d %C (%F:%L) %n[%p] %m %n</property>
+        <property name="filePattern">.%d{yyyy-MM-dd}</property>
+        <property name="sizeTriggeringPolicy">16 M</property>
+        <property name="maxFileSizePolicy">10</property>
+        <property name="rootLoggerLevel">DEBUG</property>
+        <property name="serviceLoggerLevel">INFO</property>
+        <property name="frameworkLoggerLevel">ERROR</property>
+    </properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <RollingFile name="ROLLING_FILE_ERROR" fileName="${fileFolder}error.log" filePattern="${fileFolder}error.log${filePattern}">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxFileSizePolicy}" compressionLevel="0"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"></ThresholdFilter>
+        </RollingFile>
+
+        <RollingFile name="ROLLING_FILE_ALL" fileName="${fileFolder}all.log" filePattern="${fileFolder}all.log${filePattern}">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxFileSizePolicy}" compressionLevel="0"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"></ThresholdFilter>
+        </RollingFile>
+
+        <RollingFile name="ROLLING_FILE_REST" fileName="${fileFolder}rest.log" filePattern="${fileFolder}rest.log${filePattern}">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxFileSizePolicy}" compressionLevel="0"/>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"></ThresholdFilter>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.springframework" level="${frameworkLoggerLevel}"/>
+        <Logger name="org.apache" level="${frameworkLoggerLevel}"/>
+        <Logger name="com.google" level="${frameworkLoggerLevel}"/>
+        <Logger name="com.alibaba" level="${frameworkLoggerLevel}"/>
+        <Logger name="org.jboss" level="${serviceLoggerLevel}"/>
+
+        <Logger name="me.hinsteny.service" level="${serviceLoggerLevel}" additivity="false">
+            <AppenderRef ref="ROLLING_FILE_REST"/>
+        </Logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="ROLLING_FILE_ERROR"/>
+            <AppenderRef ref="ROLLING_FILE_ALL"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
