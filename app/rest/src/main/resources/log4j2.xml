@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <properties>
-        <property name="fileFolder">D://logs/website/</property>
+        <property name="fileFolder">D://logs/smd/</property>
         <property name="pattern">[%T] %d %C (%F:%L) %n[%p] %m %n</property>
         <property name="filePattern">.%d{yyyy-MM-dd}</property>
         <property name="sizeTriggeringPolicy">16 M</property>
@@ -52,7 +52,8 @@
         <Logger name="com.alibaba" level="${frameworkLoggerLevel}"/>
         <Logger name="org.jboss" level="${serviceLoggerLevel}"/>
 
-        <Logger name="me.hinsteny.rest" level="${serviceLoggerLevel}" additivity="false">
+        <Logger name="org.hinsteny.rest" level="${serviceLoggerLevel}" additivity="false">
+            <AppenderRef ref="CONSOLE"/>
             <AppenderRef ref="ROLLING_FILE_REST"/>
         </Logger>
 

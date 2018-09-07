@@ -1,38 +1,75 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
-    <id>rest</id>
-    <formats>
-        <format>tar.gz</format>
-    </formats>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+  <id>rest</id>
+  <formats>
+    <format>war</format>
+    <format>dir</format>
+  </formats>
 
-    <includeBaseDirectory>false</includeBaseDirectory>
+  <includeBaseDirectory>false</includeBaseDirectory>
 
-    <fileSets>
-        <fileSet>
-            <directory>${project.build.directory}/dubbo/META-INF/assembly/bin</directory>
-            <outputDirectory>bin</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/assembly/conf</directory>
-            <outputDirectory>conf</outputDirectory>
-            <fileMode>0644</fileMode>
-        </fileSet>
-    </fileSets>
+  <dependencySets>
+    <!-- 将项目依赖的JAR包输出到 WEB-INF/lib -->
+    <dependencySet>
+      <outputDirectory>WEB-INF/lib</outputDirectory>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+  </dependencySets>
 
-    <moduleSets>
-        <moduleSet>
-            <!-- Enable access to all projects in the current multimodule build! -->
-            <useAllReactorProjects>true</useAllReactorProjects>
-            <!-- Now, select which projects to include in this module-set. -->
-            <includes>
-                <include>org.hinsteny:rest</include>
-            </includes>
-            <binaries>
-                <outputDirectory>lib</outputDirectory>
-                <unpack>false</unpack>
-            </binaries>
-        </moduleSet>
-    </moduleSets>
+  <fileSets>
+    <fileSet>
+      <directory>${project.build.directory}/rest</directory>
+      <outputDirectory>WEB-INF/classes</outputDirectory>
+      <excludes>
+        <exclude>META-INF/*</exclude>
+      </excludes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <!--<fileSet>
+      <directory>${project.build.directory}/rest/META-INF</directory>
+      <outputDirectory>META-INF</outputDirectory>
+      <excludes>
+        <exclude>maven</exclude>
+        <exclude>README.md</exclude>
+      </excludes>
+      <fileMode>0755</fileMode>
+    </fileSet>-->
+    <!-- ${env} 的值由 -P 的参数传递进来, 如：-Pdev, 那么, ${env} 的值就是 dev -->
+    <!--<fileSet>
+      <directory>${project.basedir}/${profiles.dir}/${env}</directory>
+      <outputDirectory>WEB-INF/classes</outputDirectory>
+    </fileSet>-->
+    <!-- 将 webapp 下的文件输出到 WAR 包 -->
+    <fileSet>
+      <directory>${project.basedir}/src/main/webapp</directory>
+      <outputDirectory></outputDirectory>
+    </fileSet>
+  </fileSets>
+
+  <moduleSets>
+    <moduleSet>
+      <!-- Enable access to all projects in the current multimodule build! -->
+      <useAllReactorProjects>true</useAllReactorProjects>
+      <!-- Now, select which projects to include in this module-set. -->
+      <includes>
+        <include>org.hinsteny:rest</include>
+      </includes>
+      <binaries>
+        <outputDirectory>WEB-INF/lib</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+      <!--<sources>
+        <fileSets>
+          <fileSet>
+            <excludes>
+              <exclude>/WEB-INF/classes/META-INF/maven</exclude>
+              <exclude>/WEB-INF/classes/META-INF/MANIFEST.MF</exclude>
+            </excludes>
+          </fileSet>
+        </fileSets>
+      </sources>-->
+    </moduleSet>
+  </moduleSets>
+
 </assembly>

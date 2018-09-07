@@ -1,6 +1,5 @@
 package org.hisoka.secret;
 
-import org.hisoka.commons.Base64Utils;
 import org.hisoka.commons.ByteUtils;
 
 import javax.crypto.Cipher;

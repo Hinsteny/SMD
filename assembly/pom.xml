@@ -3,14 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>website</artifactId>
         <groupId>org.hinsteny</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>SMD</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>assembly</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
 
@@ -23,7 +24,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack</id>
+                        <id>unpack-dubbo</id>
                         <phase>package</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -33,9 +34,27 @@
                                 <artifactItem>
                                     <groupId>com.alibaba</groupId>
                                     <artifactId>dubbo</artifactId>
-                                    <version>${dubbox.version}</version>
+                                    <version>${dubbo.version}</version>
                                     <outputDirectory>${project.build.directory}/dubbo</outputDirectory>
                                     <includes>META-INF/assembly/**</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-rest</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.hinsteny</groupId>
+                                    <artifactId>rest</artifactId>
+                                    <version>${project.version}</version>
+                                    <outputDirectory>${project.build.directory}/rest</outputDirectory>
+                                    <includes>**</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -43,7 +62,7 @@
                 </executions>
             </plugin>
 
-            <!-- use assembly to pack service jar  -->
+            <!-- use assembly to pack service jar/war  -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>

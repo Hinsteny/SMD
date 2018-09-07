@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dubbo.apache.org/schema/dubbo
+        http://dubbo.apache.org/schema/dubbo/dubbo.xsd"
+  default-autowire="byName">
+
+  <!-- SwaggerUI -->
+  <bean id="swaggerService" class="org.hinsteny.integration.swagger.DubboSwaggerApiListingResource"/>
+
+  <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
+    <property name="schemes" value="http"/>
+    <property name="resourcePackage" value="org.hinsteny.rest.resource"/>
+    <property name="version" value="2.0"/>
+    <property name="host" value="localhost:8888"/>
+    <property name="basePath" value="/services/"/>
+    <property name="title" value="title"/>
+    <property name="description" value="desc"/>
+    <property name="contact" value="abc"/>
+    <property name="license" value="Apache 2.0"/>
+    <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+    <property name="scan" value="true"/>
+  </bean>
+
+  <dubbo:service interface="org.hinsteny.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest"/>
+
+</beans>

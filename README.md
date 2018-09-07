@@ -28,7 +28,12 @@ note left of util: util模块后期考虑拆分出去
 
 ### 配置使用
 
-...
+#### 编译打包
+
+`mvn clean compile package -Dmaven.test.skip=true -B`
+
+#### rest 模块对外提供restful接口服务, 以war包的形式部署于tomcat/jetty中
+
 
 ### 第一期 基础框架组合与配置
 

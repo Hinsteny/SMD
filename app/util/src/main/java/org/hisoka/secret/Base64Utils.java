@@ -1,4 +1,4 @@
-package org.hisoka.commons;
+package org.hisoka.secret;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

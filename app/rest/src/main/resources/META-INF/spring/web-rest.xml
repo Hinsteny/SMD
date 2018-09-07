@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://code.alibabatech.com/schema/dubbo
-        http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
-       default-autowire="byName">
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+  default-autowire="byName">
 
-    <dubbo:application name="${app.name}"/>
+    <!-- 加载应用程序配置文件 -->
+    <context:property-placeholder location="classpath:app.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
 
-    <!--<dubbo:registry address="N/A"/>-->
-    <dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>
+    <dubbo:application name="${app.name}" owner="${app.owner}" organization="${app.organization}"/>
 
-    <dubbo:protocol name="rest" port="${dubbo.rest.port}"/>
+    <dubbo:registry address="N/A"/>
+    <!--<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>-->
 
-    <dubbo:service interface="org.hinsteny.rest.resource.UserResource" ref="userResource" protocol="rest"/>
+    <!-- use netty server -->
+    <!--<dubbo:protocol name="rest" port="8888" keepalive="true" server="netty" iothreads="5" threads="100" contextpath="services"/>-->
+
+    <!-- use tomcat server -->
+    <dubbo:protocol name="rest" port="8889" threads="500" contextpath="services" server="tomcat" accepts="500"
+      extension="org.hisoka.extension.interceptor.TraceInterceptor"/>
+
+    <dubbo:protocol name="dubbo" port="20881" threads="200"/>
+
+    <!-- 引入swagger(构建API接口描述的工具)配置文件 -->
+    <!--<import resource="classpath:/spring/swagger-info.xml" />-->
+    <!-- 引入service配置文件 -->
+    <import resource="classpath:/spring/context.xml" />
+
+    <dubbo:service interface="org.hinsteny.rest.resource.UserResource" ref="userResource" protocol="rest" validation="true"/>
 
 </beans>

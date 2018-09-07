@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://code.alibabatech.com/schema/dubbo
-        http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
-       default-autowire="byName">
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+  default-autowire="byName">
 
-    <dubbo:application name="website-service"/>
+  <!-- 加载应用程序配置文件 -->
+  <context:property-placeholder location="classpath:service.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
 
-    <!--<dubbo:registry address="N/A"/>-->
-    <dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>
+  <dubbo:application name="smd-app-service"/>
 
-    <dubbo:protocol name="rest" port="${dubbo.service.port}"/>
+  <dubbo:registry address="N/A"/>
+  <!--<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>-->
 
-    <dubbo:service interface="org.hinsteny.facade.UserService" ref="userService" protocol="dubbo"/>
+  <dubbo:protocol name="rest" port="${dubbo.service.port}"/>
+
+  <dubbo:service interface="org.hinsteny.facade.UserService" ref="userService" protocol="dubbo"/>
+
+  <!-- 引入dubbo-service配置文件 -->
+  <import resource="classpath*:app-services.xml" />
 
 </beans>
