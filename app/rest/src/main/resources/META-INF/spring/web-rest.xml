@@ -11,28 +11,33 @@
         http://www.springframework.org/schema/context/spring-context.xsd"
   default-autowire="byName">
 
-    <!-- 加载应用程序配置文件 -->
-    <context:property-placeholder location="classpath:app.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
+  <!-- 加载应用程序配置文件 -->
+  <context:property-placeholder location="classpath:app.properties" file-encoding="utf-8"
+    ignore-unresolvable="true"/>
 
-    <dubbo:application name="${app.name}" owner="${app.owner}" organization="${app.organization}"/>
+  <dubbo:application name="${app.name}" owner="${app.owner}" organization="${app.organization}"/>
 
-    <dubbo:registry address="N/A"/>
-    <!--<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>-->
+  <dubbo:registry address="N/A"/>
+  <!--<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.address}"/>-->
 
-    <!-- use netty server -->
-    <!--<dubbo:protocol name="rest" port="8888" keepalive="true" server="netty" iothreads="5" threads="100" contextpath="services"/>-->
+  <!-- use netty server -->
+  <!--<dubbo:protocol name="rest" port="8888" keepalive="true" server="netty" iothreads="5" threads="100" contextpath="services"/>-->
 
-    <!-- use tomcat server -->
-    <dubbo:protocol name="rest" port="8889" threads="500" contextpath="services" server="tomcat" accepts="500"
-      extension="org.hisoka.extension.interceptor.TraceInterceptor"/>
+  <!-- use tomcat server -->
+  <dubbo:protocol name="rest" port="8889" threads="500" contextpath="services" server="tomcat"
+    accepts="500"
+    extension="org.hisoka.extension.interceptor.TraceInterceptor"/>
 
-    <dubbo:protocol name="dubbo" port="20881" threads="200"/>
+  <dubbo:protocol name="dubbo" port="20881" threads="200"/>
 
-    <!-- 引入swagger(构建API接口描述的工具)配置文件 -->
-    <!--<import resource="classpath:/spring/swagger-info.xml" />-->
-    <!-- 引入service配置文件 -->
-    <import resource="classpath:/spring/context.xml" />
+  <!-- 引入swagger(构建API接口描述的工具)配置文件 -->
+  <!--<import resource="classpath:/spring/swagger-info.xml" />-->
+  <!-- 引入service配置文件 -->
+  <import resource="classpath:/spring/context.xml"/>
+  <!-- 引入sentinel配置文件 -->
+  <import resource="classpath:/spring/sentinel.xml"/>
 
-    <dubbo:service interface="org.hinsteny.rest.resource.UserResource" ref="userResource" protocol="rest" validation="true"/>
+  <dubbo:service interface="org.hinsteny.rest.resource.UserResource" ref="userResource"
+    protocol="rest" validation="true"/>
 
 </beans>

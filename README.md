@@ -8,7 +8,7 @@ Java web应用开发的基础框架, 数据库配置的Postgres Sql.
 项目本身采用Maven管理, jdk1.8, 配置基础的SSM框架使用方法.
 
 ### 包含技术
-*  Springmvc, mybatis, Dubbo
+*  Springmvc, mybatis, Dubbo, Sentinel
 *  postgres
 *  
 
@@ -40,8 +40,9 @@ note left of util: util模块后期考虑拆分出去
 Functions: 
 * log4j2 config!
 * Dubbo service config!
+* Sentinel escort our service with flow control, concurrency, circuit breaking and load protection, to protect service stability!
 * Persistence level could config multi datasource!
-*
+* use
 
 
 PS: some little issues

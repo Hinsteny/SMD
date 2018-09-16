@@ -1,4 +1,4 @@
-package org.hinsteny.integration.swagger;
+package org.hisoka.integration.swagger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.servlet.ServletConfig;

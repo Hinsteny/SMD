@@ -12,7 +12,134 @@
   </parent>
 
   <artifactId>rest</artifactId>
-  <packaging>jar</packaging>
+
+  <packaging>war</packaging>
+
+  <build>
+    <resources>
+
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <configuration>
+          <format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
+          <items>
+            <item>timestamp</item>
+          </items>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create-timestamp</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${project.build.targetJdk}</source>
+          <target>${project.build.targetJdk}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <maxmem>${jm.build.jvmsize}</maxmem>
+          <showWarnings>true</showWarnings>
+          <compilerArguments>
+            <Werror/>
+          </compilerArguments>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib</classpathPrefix>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>${project.build.targetJdk}</source>
+          <charset>${project.build.sourceEncoding}</charset>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <docencoding>${project.build.sourceEncoding}</docencoding>
+        </configuration>
+        <executions>
+          <execution>
+            <id>do-javadoc</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warSourceExcludes>
+            WEB-INF/lib/ant-*.jar
+          </warSourceExcludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-war</id>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <warName>cmf-${project.version}-${timestamp}</warName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
@@ -46,6 +173,16 @@
     </dependency>
 
     <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-dubbo-adapter</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
     </dependency>
@@ -55,7 +192,7 @@
       <artifactId>hibernate-validator</artifactId>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
     </dependency>
@@ -63,7 +200,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-jaxrs</artifactId>
-    </dependency>
+    </dependency>-->
 
   </dependencies>
 

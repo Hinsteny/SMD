@@ -1,20 +1,16 @@
 package org.hinsteny.rest.resource;
 
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import org.hinsteny.model.vos.UserInfo;
 import org.hinsteny.rest.request.RegisterRequest;
 import org.hinsteny.share.result.CommonResult;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  * @author Hinsteny

@@ -46,7 +46,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="org.springframework" level="${frameworkLoggerLevel}"/>
+        <Logger name="org.springframework" level="${frameworkLoggerLevel}" additivity="false"/>
         <Logger name="org.apache" level="${frameworkLoggerLevel}"/>
         <Logger name="com.google" level="${frameworkLoggerLevel}"/>
         <Logger name="com.alibaba" level="${frameworkLoggerLevel}"/>
@@ -57,7 +57,7 @@
             <AppenderRef ref="ROLLING_FILE_REST"/>
         </Logger>
 
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="CONSOLE"/>
             <AppenderRef ref="ROLLING_FILE_ERROR"/>
             <AppenderRef ref="ROLLING_FILE_ALL"/>

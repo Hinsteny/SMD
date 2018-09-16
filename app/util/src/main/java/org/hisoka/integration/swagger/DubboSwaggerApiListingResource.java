@@ -1,4 +1,4 @@
-package org.hinsteny.integration.swagger;
+package org.hisoka.integration.swagger;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import org.hinsteny.integration.swagger.DubboSwaggerService;
 
 /**
  * @author Hinsteny

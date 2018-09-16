@@ -9,7 +9,7 @@
   default-autowire="byName">
 
   <!-- SwaggerUI -->
-  <bean id="swaggerService" class="org.hinsteny.integration.swagger.DubboSwaggerApiListingResource"/>
+  <bean id="swaggerService" class="org.hisoka.integration.swagger.DubboSwaggerApiListingResource"/>
 
   <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
     <property name="schemes" value="http"/>
@@ -25,6 +25,6 @@
     <property name="scan" value="true"/>
   </bean>
 
-  <dubbo:service interface="org.hinsteny.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest"/>
+  <dubbo:service interface="org.hisoka.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest"/>
 
 </beans>
